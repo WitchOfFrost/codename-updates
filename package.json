@@ -1,0 +1,24 @@
+{
+  "name": "codename-updates",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Temporary Codename for an update Discord Worker.",
+  "main": "main.js",
+  "scripts": {
+    "test": "main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WitchOfFrost/codename-updates.git"
+  },
+  "author": "Christen Tautz <chrisneuss01@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WitchOfFrost/codename-updates/issues"
+  },
+  "homepage": "https://github.com/WitchOfFrost/codename-updates#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "fs": "^0.0.1-security"
+  }
+}
