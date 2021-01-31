@@ -3,13 +3,21 @@ import Logger from "../workers/logger.js";
 import { WriteFile } from "../workers/loadfile.js";
 
 let bearer;
-let api = axios.create({ baseURL: 'https://api.spotify.com/v1/', headers: { 'Authorization': 'Bearer ' + bearer }, json: true });
+let firstrun = 1;
+let api = axios.create({ baseURL: 'https://www.reddit.com/api/v1/access_token', headers: { 'Authorization': 'Bearer ' + bearer }, json: true });
 
 export default class Reddit {
-    
+
     static token_get(config, service, i) {
-        console.log(config.services)    
-        if(config.services[i].updated < (Date.now() + 29 * 60 * 1000)){
+
+        if (firstrun == 1) {
+            firstrun = 0;
+            api.defaults.headers['Authorization'] = 'Bearer ' + config.services[i].bearercache;
+        }
+
+
+
+        if (config.services[i].updated > (Date.now() + 29 * 60)) {
             Logger.dbg("Reddit Bearer timed out, refreshing...");
             axios({
                 url: "https://www.reddit.com/api/v1/access_token",
@@ -26,19 +34,22 @@ export default class Reddit {
                     password: `${service.clientsecret}`
                 }
             }).then(data => {
-                bearer = data.data.access_token;
-                api.defaults.headers['Authorization'] = 'Bearer ' + bearer;
-                Logger.dbg(`Updated Reddit Bearer to ${bearer}`);
-                WriteFile.cfg(config, i);
+                try {
+                    bearer = data.data.access_token;
+                    api.defaults.headers['Authorization'] = 'Bearer ' + bearer;
+                    Logger.dbg(`Updated Reddit Bearer to ${bearer}`);
+                } finally {
+                    WriteFile.cfg(config, i, bearer);
+                }
             }).catch(err => {
                 Logger.warn(err);
             });
         } else Logger.dbg(`Reddit bearer still valid!`);
     };
-    
-    
-    
-    static async notif_get(config, service, i){
+
+
+
+    static async notif_get(config, service, i) {
         await this.token_get(config, service, i);
     };
 };
