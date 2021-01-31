@@ -15,8 +15,6 @@ export default class Reddit {
             api.defaults.headers['Authorization'] = 'Bearer ' + config.services[i].bearercache;
         }
 
-
-
         if (config.services[i].updated > (Date.now() + 29 * 60)) {
             Logger.dbg("Reddit Bearer timed out, refreshing...");
             axios({
