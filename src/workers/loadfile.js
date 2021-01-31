@@ -14,7 +14,19 @@ export default class ReadFile {
             Logger.dbg(`Read config from file: ${configData}`);
             return (configData);
         }
+    };
+
+    static services() {
+        try {
+            configData = fs.readFileSync('./src/json/services.json', 'utf-8');
+        } catch (e) {
+            Logger.err(e);
+        } finally {
+            Logger.dbg(`Read services from file: ${configData}`);
+            return (configData);
+        }
     }
+
 };
 
 export class WriteFile {
