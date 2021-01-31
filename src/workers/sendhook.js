@@ -13,7 +13,6 @@ export default class SendHook {
 
         axios.post(webhook_url, body, axiosconfig).catch(err => {
             Logger.warn(err);
-            console.log(err)
         });
     }
 };
