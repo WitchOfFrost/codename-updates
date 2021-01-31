@@ -2,6 +2,7 @@ import fs from "fs";
 import Logger from "./logger.js";
 
 let configData;
+let json_string;
 
 export default class ReadFile {
     static cfg() {
@@ -16,15 +17,17 @@ export default class ReadFile {
 }};
 
 export class WriteFile {
-    static cfg(cfg, i) {
+    static cfg(config, i, bearer) {
         try {
-            cfg.services[i].updated = Date.now();
-            let configData = JSON.stringify(cfg);
-            fs.writeFileSync('./src/json/config.json', configData, 'utf-8'); 
+            config.services[i].updated = Date.now();
+            config.services[i].bearercache = bearer
+            json_string = JSON.stringify(config)
+            
+            fs.writeFileSync('./src/json/config.json', json_string); 
         } catch(e) {
             Logger.err(e);
         } finally {
-            Logger.dbg(`Wrote config to file: ${configData}`);
+            Logger.dbg(`Wrote config to file: ${json_string}`);
             return("Success");
         }
     }
