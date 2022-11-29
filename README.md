@@ -1,2 +1,2 @@
 # Codename: Updates
-Temporary Codename for an update Discord Worker.
+A now defunct Discord Bot to track RSS Feeds.
